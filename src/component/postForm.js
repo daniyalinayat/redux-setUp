@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { createPosts } from "../actions/postActions";
 class PostForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: "",
-      body: ""
+      body: "",
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -20,18 +22,20 @@ class PostForm extends Component {
 
     const post = {
       title: this.state.title,
-      body: this.state.body
+      body: this.state.body,
     };
 
-    fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
-      body: JSON.stringify(post)
-    })
-      .then(res => res.json())
-      .then(data => console.log(data));
+    this.props.createPosts(post);
+
+    // fetch("https://jsonplaceholder.typicode.com/posts", {
+    //   method: "POST",
+    //   headers: {
+    //     "content-type": "application/json"
+    //   },
+    //   body: JSON.stringify(post)
+    // })
+    //   .then(res => res.json())
+    //   .then(data => console.log(data));
   }
 
   render() {
@@ -43,8 +47,8 @@ class PostForm extends Component {
             <label>Title</label>
             <br />
             <input
-              type='text'
-              name='title'
+              type="text"
+              name="title"
               onChange={this.onChange}
               value={this.state.title}
             />
@@ -53,16 +57,29 @@ class PostForm extends Component {
             <label>Body</label>
             <br />
             <textarea
-              name='body'
+              name="body"
               onChange={this.onChange}
               value={this.state.body}
             />
           </div>
           <br />
-          <button type='submit'>Submit</button>
+          <button type="submit">Submit</button>
         </form>
       </div>
     );
   }
 }
-export default PostForm;
+PostForm.protoTypes = {
+  createPosts: PropTypes.func.isRequired,
+  // newPost: PropTypes.object.isRequired,
+  // posts: PropTypes.array.isRequired,
+};
+
+// const mapStateToProps = state => ({
+//   posts: state.posts.items,
+// });
+
+export default connect(
+  null,
+  { createPosts },
+)(PostForm);
