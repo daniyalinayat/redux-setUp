@@ -1,21 +1,21 @@
-import { FETCH_POST, NEW_POST } from "../actions/type";
+import { FETCH_POSTS, NEW_POST } from '../actions/types';
 
-const initState = {
-  items: [], //booking array
-  item: {}, //single post single booking
+const initialState = {
+  items: [],
+  item: {}
 };
 
-export default function(state = initState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
-    case FETCH_POST:
+    case FETCH_POSTS:
       return {
         ...state,
-        items: action.payload,
+        items: action.payload
       };
     case NEW_POST:
       return {
         ...state,
-        item: action.payload,
+        item: action.payload
       };
     default:
       return state;
